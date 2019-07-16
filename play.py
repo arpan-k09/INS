@@ -41,11 +41,17 @@ def spl(message_original):
     i = 0
     for e in range(int(len(message) / 2)):
         if message[i] == message[i + 1]:
-            message.insert(i + 1, 'x')
+            if message[i] == 'x':
+                message.insert (i + 1,'y')
+            else:
+                message.insert(i + 1, 'x')
         i = i + 2
 
     if len(message) % 2 == 1:
-        message.append("x")
+        if message[len(message)-1] == 'x':
+            message.append('y')
+        else:
+            message.append("x")
 
     i = 0
     new = []
@@ -70,8 +76,9 @@ def fp(key_matrix, letter):
 
 def encrypt(message):
     message = spl(message)
+    print(message)
     #print(message)
-    key_matrix = matrix("arpan korat")
+    key_matrix = matrix("textile")
     cipher = []
     for e in message:
         a = e[0]
@@ -101,7 +108,7 @@ def encrypt(message):
             cipher.append(key_matrix[p2][q1])
     return cipher
 
-e = encrypt("riddhi chodvadiya")
+e = encrypt("committee")
 leng = len(e)
 co = 0
 st = ""
