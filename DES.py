@@ -7,76 +7,61 @@ def he2bin(msg):
     #print(f)
     return f
 
+
+
 def binar2he(msg):
     bi = {"0000":"0","0001":"1","0010":"2","0011":"3","0100":"4","0101":"5","0110":"6","0111":"7","1000":"8","1001":"9","1010":"a","1011":"b","1100":"c","1101":"d","1110":"e","1111":"f"}
     f = ""
     lis = []
-    count = 0
+    #count = 0
     l = len(msg)
-    if l == 64:
-        for i in range(0, 16):
-            lis = lis + [msg[count:count + 4]]
-            f = f + bi[lis[i]]
-            count = count + 4
-    elif l == 56:
-        for i in range(0, 14):
-            lis = lis + [msg[count:count + 4]]
-            f = f + bi[lis[i]]
-            count = count + 4
-    elif l == 48:
-        for i in range(0, 12):
-            lis = lis + [msg[count:count + 4]]
-            f = f + bi[lis[i]]
-            count = count + 4
-    elif l == 32:
-        for i in range(0, 8):
-            lis = lis + [msg[count:count + 4]]
-            f = f + bi[lis[i]]
-            count = count + 4
+
+    count1 = 0
+    i = 0
+    while count1 != l:
+
+        lis = lis + [msg[count1:count1 + 4]]
+        f = f + bi[lis[i]]
+        i = i + 1
+        count1 = count1 + 4
 
     #print(lis)
     # print(f)
-
     return f
 
-def first_ini(msg):
-    IPC = [58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,62, 54, 46, 38, 30, 22, 14, 6,64,56,48,40,32,24,16,8,57, 49, 41, 33, 25, 17, 9, 1,  59, 51, 43, 35, 27, 19, 11, 3,61, 53, 45, 37, 29, 21, 13, 5,63, 55, 47, 39, 31, 23, 15, 7]
-
-    bi = he2bin(msg)
-    #print(bi)
-    le = len(IPC)
-    final_s = ""
-    #count = 0
-    for i in range(0,le):
-        #print(IPC[i]-1)
-        final_s = final_s + str(bi[IPC[i]-1])
-        #print(final_s)
-    #print(final_s)
 
 
-    h = binar2he(final_s)
-    print("Initial permutation : - ",h)
-    return h
+def s_box(x):
+    he = {"0000":"0",  "0001":"1",  "0010":"2",  "0011":"3",  "0100":"4",  "0101":"5", "0110":"6", "0111": "7",
+            "1000":"8","1001": "9" , "1010":"10", "1011":"11", "1100": "12" , "1101":"13",  "1110":"14", "1111": "15"}
+    bi = {"0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7",
+          "8": "8", "9": "9", "a":"10", "b":"11", "c":"12", "d":"13", "e":"14", "f":"15"}
 
-def enco(msg):
 
-    #r = msg
 
-    #print(r)
-    final_s = msg
-    #final_s = he2bin(r)
-    #le = len(final_s)
+    s_b = [["63", "7c", "77", "7b", "f2", "6b", "6f", "c5", "30", "01", "67", "2b", "fe", "d7", "ab", "76"],
+           ["ca", "82", "c9", "7d", "fa", "59", "47", "f0", "ad", "d4", "a2", "af", "9c", "a4", "72", "c0"],
+           ["b7", "fd", "93", "26", "36", "3f", "f7", "cc", "34", "a5", "e5", "f1", "71", "d8", "31", "15"],
+           ["04", "c7", "23", "c3", "18", "96", "05", "9a", "07", "12", "80", "e2", "eb", "27", "b2", "75"],
+           ["09", "83", "2c", "1a", "1b", "6e", "5a", "a0", "52", "3b", "d6", "b3", "29", "e3", "2f", "84"],
+           ["53", "d1", "00", "ed", "20", "fc", "b1", "5b", "6a", "cb", "be", "39", "4a", "4c", "58", "cf"],
+           ["d0", "ef", "aa", "fb", "43", "4d", "33", "85", "45", "f9", "02", "7f", "50", "3c", "9f", "a8"],
+           ["51", "a3", "40", "8f", "92", "9d", "38", "f5", "bc", "b6", "da", "21", "10", "ff", "f3", "d2"],
+           ["cd", "0c", "13", "ec", "5f", "97", "44", "17", "c4", "a7", "7e", "3d", "64", "5d", "19", "73"],
+           ["60", "81", "4f", "dc", "22", "2a", "90", "88", "46", "ee", "b8", "14", "de", "5e", "0b", "db"],
+           ["e0", "32", "3a", "0a", "49", "06", "24", "5c", "c2", "d3", "ac", "62", "91", "95", "e4", "79"],
+           ["e7", "c8", "37", "6d", "8d", "d5", "4e", "a9", "6c", "56", "f4", "ea", "65", "7a", "ae", "08"],
+           ["ba", "78", "25", "2e", "1c", "a6", "b4", "c6", "e8", "dd", "74", "1f", "4b", "bd", "8b", "8a"],
+           ["70", "3e", "b5", "66", "48", "03", "f6", "0e", "61", "35", "57", "b9", "86", "c1", "1d", "9e"],
+           ["e1", "f8", "98", "11", "69", "d9", "8e", "94", "9b", "1e", "87", "e9", "ce", "55", "28", "df"],
+           ["8c", "a1", "89", "0d", "bf", "e6", "42", "68", "41", "99", "2d", "0f", "b0", "54", "bb", "16"]
+    ]
+    s = s_b[int(bi[x[0]])][int(bi[x[1]])]
+    #print(s)
+    return s
 
-    #print(final_s)
 
-    #count = 0
-    en_tab = [32,1,2,3,4,5,4,5,6,7,8,9,8,9,10,11,12,13,12,13,14,15,16,17,16,17,18,19,20,21,20,21,22,23,24,25,24,25,26,27,28,29,28,29,30,31,32,1]
-    l_f = len(en_tab)
-    ret = ""
-    for i in range(0,l_f):
-        ret = ret + final_s[en_tab[i]-1]
-    return ret
-
+s_box("20")
 
 def xor(first,second):
     fi_s = ""
@@ -94,261 +79,241 @@ def xor(first,second):
     return fi_s
 
 
-def round(r):
-    m = []
-    if r == 1:
-        m = [[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
-             [0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8],
-            [4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0],
-            [15, 12, 8, 2, 4, 9, 1, 7, 5, 11, 3, 14, 10, 0, 6, 13]]
-    elif r == 2:
-        m = [[15, 1, 8, 14, 6, 11, 3, 4, 9, 7, 2, 13, 12, 0, 5, 10],
-            [3, 13, 4, 7, 15, 2, 8, 14, 12, 0, 1, 10, 6, 9, 11, 5],
-            [0, 14, 7, 11, 10, 4, 13, 1, 5, 8, 12, 6, 9, 3, 2, 15],
-             [13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9]]
-    elif r == 3:
-        m = [[10, 0, 9, 14, 6, 3, 15, 5, 1, 13, 12, 7, 11, 4, 2, 8],
-            [13, 7, 0, 9, 3, 4, 6, 10, 2, 8, 5, 14, 12, 11, 15, 1],
-            [13, 6, 4, 9, 8, 15, 3, 0, 11, 1, 2, 12, 5, 10, 14, 7],
-            [1, 10, 13, 0, 6, 9, 8, 7, 4, 15, 14, 3, 11, 5, 2, 12]]
-    elif r == 4:
-        m = [[7, 13, 14, 3, 0, 6, 9, 10, 1, 2, 8, 5, 11, 12, 4, 15],
-             [13, 8, 11, 5, 6, 15, 0, 3, 4, 7, 2, 12, 1, 10, 14, 9],
-             [10, 6, 9, 0, 12, 11, 7, 13, 15, 1, 3, 14, 5, 2, 8, 4],
-             [3, 15, 0, 6, 10, 1, 13, 8, 9, 4, 5, 11, 12, 7, 2, 14]]
-    elif r == 5:
-        m = [[2, 12, 4, 1, 7, 10, 11, 6, 8, 5, 3, 15, 13, 0, 14, 9],
-            [14, 11, 2, 12, 4, 7, 13, 1, 5, 0, 15, 10, 3, 9, 8, 6],
-            [4, 2, 1, 11, 10, 13, 7, 8, 15, 9, 12, 5, 6, 3, 0, 14],
-             [11, 8, 12, 7, 1, 14, 2, 13, 6, 15, 0, 9, 10, 4, 5, 3]]
-    elif r == 6:
-        m = [[12, 1, 10, 15, 9, 2, 6, 8, 0, 13, 3, 4, 14, 7, 5, 11],
-             [10, 15, 4, 2, 7, 12, 9, 5, 6, 1, 13, 14, 0, 11, 3, 8],
-             [9, 14, 15, 5, 2, 8, 12, 3, 7, 0, 4, 10, 1, 13, 11, 6],
-             [4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13]]
-    elif r == 7:
-        m = [[4, 11, 2, 14, 15, 0, 8, 13, 3, 12, 9, 7, 5, 10, 6, 1],
-            [13, 0, 11, 7, 4, 9, 1, 10, 14, 3, 5, 12, 2, 15, 8, 6],
-            [1, 4, 11, 13, 12, 3, 7, 14, 10, 15, 6, 8, 0, 5, 9, 2],
-            [6, 11, 13, 8, 1, 4, 10, 7, 9, 5, 0, 15, 14, 2, 3, 12]]
-    elif r == 8:
-        m = [[13, 2, 8, 4, 6, 15, 11, 1, 10, 9, 3, 14, 5, 0, 12, 7],
-             [1, 15, 13, 8, 10, 3, 7, 4, 12, 5, 6, 11, 0, 14, 9, 2],
-            [7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8],
-            [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11]]
-    return m
-
-def s_box(x):
-
-    he = {"0000":"0",  "0001":"1",  "0010":"2",  "0011":"3",  "0100":"4",  "0101":"5", "0110":"6", "0111": "7",
-            "1000":"8","1001": "9" , "1010":"10", "1011":"11", "1100": "12" , "1101":"13",  "1110":"14", "1111": "15"}
-    bi = { "0":"0", "1":"1",  "2":"2",  "3":"3",  "4":"4","5":"5",  "6":"6", "7":"7",
-          "8":"8", "9":"9", "10":"a", "11":"b",  "12":"c", "13":"d", "14":"e", "15":"f"}
-    row = {"00":0,"01":1,"10":2,"11":3}
 
 
-    #s_li = ['s1','s2','s3','s4','s5','s6','s7','s8']
-    #lis = [x[0:7],x[7:13],x[13:19],]
-    count = 0
-    lis = []
-    for i in range(0,8):
-        lis = lis + [x[count:count+6]]
-        count = count + 6
-    #print(lis)
-    final_str = ""
-
-    ro = 1
-    for i in range(0, 8):
-        s = lis[i]
-        va = s[0] + s[5]
-        #print(row[va])
-        m = round(ro)
-        #print(ind)
-        index = int(row[va])
-        #print(index)
-        val = int(he[s[1:5]])
-        final_str = final_str + str(bi[str(m[index][val])])
-        ro = ro + 1
-    #print(final_str)
-    return he2bin(final_str)
-
-def aft_s_per(msg):
-    m = [16, 7, 20, 21, 29, 12, 28, 17, 1,15, 23, 26, 5, 18, 31, 10,2, 8, 24, 14, 32, 27, 3, 9, 19, 13, 30, 6, 22, 11, 4, 25]
-    l = len(m)
-    final_str = ""
-    for i in range(0,l):
-        final_str = final_str + msg[m[i]-1]
-    return final_str
+def key(k,r):
 
 
-def key_perm(msg):
-    PC1 = [57,49,41,33,25,17,9,
-        1,58,50,42,34,26,18,
-        10,2,59,51,43,35,27,
-        19,11,3,60,52,44,36,
-        63,55,47,39,31,23,15,
-        7,62,54,46,38,30,22,
-        14,6,61,53,45,37,29,
-        21,13,5,28,20,12,4 ]
+    #print(he2bin(k[0][0]))
+    #print(he2bin(rcon[0]))
+    #print(mid_key)
+    #print(he2bin(col[0]))
 
-    bi = he2bin(msg)
+    #print(mid_key1)
+    #print(r)
+    final_key = []
+    #rcon = [["01","00","00","00"],["02","00","00","00"],["04""00","00","00"],["08","00","00","00"],["10","00","00","00"],["20","00","00","00"],["40","00","00","00"],["80","00","00","00"],["1b","00","00","00"],["36""00","00","00"]]
+    #rcon = ["01", "00", "00", "00"]
+    rcon = r
+    for i in range(0,4):
+        if i == 0:
+            first_col = []
+            temp = k[3]
+
+            for i in range(1, len(temp)):
+                first_col = first_col + [temp[i]]
+            first_col = first_col + [temp[0]]
+            # print(first_col)
+            col = []
+
+            for i in range(0, len(first_col)):
+                col = col + [s_box(first_col[i])]
+            # print(col)
+
+            key1 = []
+            for p in range(0,4):
+                mid_key = xor(he2bin(k[0][p]), he2bin(r[p]))
+                mid_key1 = xor(mid_key, he2bin(col[p]))
+                key1 = key1 + [str(binar2he(mid_key1))]
+
+
+            #print(key1)
+            final_key = final_key + [key1]
+
+        elif i > 0:
+            first_col = []
+
+            for p in range(0,4):
+                mid_key = xor(he2bin(k[i][p]),he2bin(final_key[i-1][p]))
+                first_col = first_col + [str(binar2he(mid_key))]
+
+            final_key = final_key + [first_col]
+    return final_key
+    #print(final_key)
+
+def coltorow(k):
+    row = []
+    for i in range(0,4):
+        col = []
+        for j in range(0,4):
+            col = col + [k[j][i]]
+        row = row + [col]
+    return (row)
+
+def rowtocol(k):
+    col = []
+    for i in range(0,4):
+        row = []
+        for j in range(0,4):
+            row = row + [k[j][i]]
+        col = col + [row]
+    return (col)
+
+
+
+def addround(pt,k):
+    #k = coltorow(k)
+
+    row = []
+    for i in range(0, 4):
+        col = []
+        for j in range(0, 4):
+            x = xor(he2bin(k[i][j]),he2bin(pt[i][j]))
+            col = col + [binar2he(x)]
+        row = row + [col]
+
+    return (coltorow(row))
+
+def subByte(k):
+    row = []
+    for i in range(0,4):
+        col = []
+        for j in range(0,4):
+            col = col + [s_box(k[i][j])]
+        row = row + [col]
+    return (row)
+
+
+def shiftrow(sb):
+    sr = []
+
+    sr = sr + [sb[0]]
+    #second = []
+    second = [sb[1][1]] + [sb[1][2]] + [sb[1][3]] + [sb[1][0]]
+    sr = sr + [second]
+
+    third = [sb[2][2]] + [sb[2][3]] + [sb[2][0]] + [sb[2][1]]
+    sr = sr + [third]
+
+    four = [sb[3][3]] + [sb[3][0]] + [sb[3][1]] + [sb[3][2]]
+    sr = sr + [four]
+
+    return sr
+
+
+def mix_2(val):
+
+    bi = he2bin(val[0])+he2bin(val[1])
+    fin = ''
+    if bi[0] == '1':
+        bi = bi[1:len(bi)] + '0'
+        fin = xor(bi,he2bin('1b'))
+
+    elif bi[0] == '0':
+        fin = bi[1:len(bi)] + '0'
+
+    return fin
+#mix_2('41')
+
+def mix_3(val):
+
+    bi = mix_2(val)
     #print(bi)
-    le = len(PC1)
-    final_s = ""
-    # count = 0
-    for i in range(0, le):
-        # print(IPC[i]-1)
-        final_s = final_s + str(bi[PC1[i] - 1])
-        # print(final_s)
-    #print(final_s)
+    fin = xor(bi,he2bin(val))
+    return fin
+#mix_3('bf')
 
-    h = binar2he(final_s)
-    #print(h)
-    return h
+#g = ['d4', 'bf', '5d', '30']
+def first_row(row):
+    #print(mix_2(row[0]))
+    #print(mix_3(row[1]))
 
-def round_key(msg):
-    round = [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1]
-
-
-    key = key_perm(msg)
-
-
-    #print(key)
-    key_list = []
-
-    key = he2bin(key)
-    for i in range(0,16):
-        final_str = ""
-
-        l = ""
-        r = ""
-        if round[i] == 1:
-
-            l_in = key[0:28]
-            r_in = key[28:56]
-            #print(len(l_in)," ",len(r_in))
-            l = l_in[1:] + l_in[0]
-            r = r_in[1:] + r_in[0]
-
-            final_str = l + r
-            #print(len(final_str))
-            key = final_str
-            key_list = key_list + [binar2he(final_str)]
-        elif round[i] == 2:
-            l_in = key[0:28]
-            r_in = key[28:56]
-            # print(len(l_in)," ",len(r_in))
-            l = l_in[2:] + l_in[0] + l_in[1]
-            r = r_in[2:] + r_in[0] + r_in[1]
-
-            final_str = l + r
-            # print(len(final_str))
-            key = final_str
-            key_list = key_list + [binar2he(final_str)]
+    first_two = xor(mix_2(row[0]),mix_3(row[1]))
+    #print(first_two)
+    seconde_two = xor(he2bin(row[2]), he2bin(row[3]))
+    fin = xor(first_two,seconde_two)
+    return binar2he(fin)
+    #fin = xor(first_two, seconde_two)
+    #print(fin)
+    #x1 = row[0]
+    #x2 = row[1]
+    #first_two = xor(mix_2(x1),mix_3(x2))
+    #print(first_two)
+    #print(len(mix_2(x1)))
+    #print(len(mix_3(x2)))
+    #x3 = row[2]
+    #x4 = row[3]
+#first_row(g)
 
 
-    print(key_list)
-    return key_list
+def second_row(row):
+    first_two = xor(he2bin(row[0]),mix_2(row[1]))
+    second_two = xor(mix_3(row[2]),he2bin(row[3]))
+    fin = xor(first_two,second_two)
+    return binar2he(fin)
+#second_row(g)
 
+def third_row(row):
+    first_two = xor(he2bin(row[0]),he2bin(row[1]))
+    second_two = xor(mix_3(row[3]),mix_2(row[2]))
+    fin = xor(first_two,second_two)
+    return binar2he(fin)
+#third_row(g)
 
-def key_gen(msg):
-    PC2 = [14,17,11,24,1,5,
-        3,28,15,6,21,10,
-        23,19,12,4,26,8,
-        16,7,27,20,13,2,
-        41,52,31,37,47,55,
-        30,40,51,45,33,48,
-        44,49,39,56,34,53,
-        46,42,50,36,29,32 ]
-
-    bi = he2bin(msg)
-    #print(bi)
-    le = len(PC2)
-    final_s = ""
-    # count = 0
-    for i in range(0, le):
-        # print(IPC[i]-1)
-        final_s = final_s + str(bi[PC2[i] - 1])
-        # print(final_s)
-    #print(final_s)
-
-    h = binar2he(final_s)
-    #print(h)
-    return h
-
-def final_inv_init(msg):
-
-    INV = [40,8,48,16,56,24,64,32,
-        39,7,47,15,55,23,63,31,
-        38,6,46,14,54,22,62,30,
-        37,5,45,13,53,21,61,29,
-        36,4,44,12,52,20,60,28,
-        35,3,43,11,51,19,59,27,
-        34,2,42,10,50,18,58,26,
-        33,1,41,9,49,17,57,25 ]
-
-    bi = he2bin(msg)
-    # print(bi)
-    le = len(INV)
-    final_s = ""
-    # count = 0
-    for i in range(0, le):
-        # print(IPC[i]-1)
-        final_s = final_s + str(bi[INV[i] - 1])
-        # print(final_s)
-    # print(final_s)
-
-    h = binar2he(final_s)
-    # print(h)
-    return h
+def fourth_row(row):
+    first_two = xor(mix_3(row[0]),he2bin(row[1]))
+    second_two = xor(mix_2(row[3]),he2bin(row[2]))
+    fin = xor(first_two,second_two)
+    return binar2he(fin)
+#fourth_row(g)
 
 
 
-def final_main(plain,key):
-    in1 = he2bin(first_ini(plain))
-
-    l_init = in1[0:32]
-    #print("p : - ",l_init)
-    r_init = in1[32:64]
-
-    final_list = []
-    key_list = round_key(key)
-    #print(key_list)
-    for i in range(0,16):
-        #print(key_gen(key_list[i]))
-        final_key = he2bin(key_gen(key_list[i]))
+def mix_col(sr):
+    final_row = []
+    for i in range(0,4):
+        row = [first_row(sr[i])] + [second_row(sr[i])] + [third_row(sr[i])] + [fourth_row(sr[i])]
+        final_row = final_row + [row]
+    return final_row
 
 
-        finsl_str = ""
-        enc = enco(r_init)
-        #print(binar2he(enc))
-        #print(enc)
+rcon = [["01","00","00","00"],["02","00","00","00"],["04","00","00","00"],["08","00","00","00"],["10","00","00","00"],["20","00","00","00"],["40","00","00","00"],["80","00","00","00"],["1b","00","00","00"],["36","00","00","00"]]
 
-        x = xor(enc,final_key)
-        #print(final_key)
-        m = s_box(x)
-        #print(m)
-        #print(m)
-        f = aft_s_per(m)
-        #print(l_init)
-        #print(f)
-        #print("f : - ",f,"l_init : - ",l_init)
-        c = xor(l_init, f)
-        #print(c)
-        finsl_str = r_init + c
-        l_init = r_init
-        r_init = c
-        final_list = final_list + [binar2he(finsl_str)]
+#k = [["0f","15","71","c9"],["47","d9","e8","59"],["0c","b7","ad","d6"],["af","7f","67","98"]]
+k = [["54","68","61","74"],["73","20","6d","79"],["20","4b","75","6e"],["67","20","46","75"]]
+#pt = [["32","43","f6","a8"],["88","5a","30","8d"],["31","31","98","a2"],["e0","37","07","34"]]
+pt = [["54","77","6f","20"],["4f","6e","65","20"],["4e","69","6e","65"],["20","54","77","6f"]]
 
-    print(final_list)
-    swap = final_list[len(final_list)-1]
-    final_swap = swap[8:16] + swap[0:8]
-    print(final_inv_init(final_swap))
+ar = addround(pt,k)
+#print(ar)
+sb = subByte(ar)
+#print(sb)
+sr = shiftrow(sb)
+#print(sr)
+mx = mix_col(rowtocol(sr))
+#print(mx)
+ar = addround(mx,key(k,rcon[0]))
+#print(ar)
+k = key(k,rcon[0])
 
+#print(addround(mx,ke))
+#r = 1
+for i in range(1,9):
 
-    
-#main message and key
-msg = "123456abcd132536"
-key = 'aabb09182736ccdd'
+    #print("\n")
+    ke = key(k,rcon[i])
+    k = ke
+    #ar = addround(mx, k)
+    #print(ar)
+    sb = subByte(ar)
+    #print(sb)
+    sr = shiftrow(sb)
+    #print(sr)
 
-final_main(msg,key)
+    mx = mix_col(rowtocol(sr))
+    #print(mx)
+    ar = addround(mx,k)
+    #print(ar)
+    #print("\n",k)
+    #ke = key(k,r)
+    #r = r + 1
+
+sb = subByte(ar)
+#print(sb)
+sr = rowtocol(shiftrow(sb))
+#print(sr)
+#mx = mix_col(sr)
+ke = key(k,rcon[9])
+ar = addround(sr, ke)
+
+print(ar)
