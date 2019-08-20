@@ -90,7 +90,7 @@ def key(k,r):
     #print(he2bin(col[0]))
 
     #print(mid_key1)
-    print(r)
+    #print(r)
     final_key = []
     #rcon = [["01","00","00","00"],["02","00","00","00"],["04""00","00","00"],["08","00","00","00"],["10","00","00","00"],["20","00","00","00"],["40","00","00","00"],["80","00","00","00"],["1b","00","00","00"],["36""00","00","00"]]
     #rcon = ["01", "00", "00", "00"]
@@ -280,18 +280,23 @@ mx = mix_col(sr)
 
 
 #print(addround(mx,ke))
-r = 1
+#r = 1
 for i in range(0,9):
-    
+
     ke = key(k,rcon[i])
     k = ke
-    print("\n",k)
+
+    sb = subByte(ar)
+    sr = coltorow(shiftrow(sb))
+    mx = mix_col(sr)
+    ar = addround(mx,k)
+    #print("\n",k)
     #ke = key(k,r)
-    r = r + 1
+    #r = r + 1
+sb = subByte(ar)
+sr = coltorow(shiftrow(sb))
+#mx = mix_col(sr)
+ke = key(k,rcon[9])
+ar = addround(mx, k)
 
-
-
-
-
-
-
+print(ar)
