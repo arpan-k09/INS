@@ -273,32 +273,55 @@ rcon = [["01","00","00","00"],["02","00","00","00"],["04","00","00","00"],["08",
 k = [["54","68","61","74"],["73","20","6d","79"],["20","4b","75","6e"],["67","20","46","75"]]
 #pt = [["32","43","f6","a8"],["88","5a","30","8d"],["31","31","98","a2"],["e0","37","07","34"]]
 pt = [["54","77","6f","20"],["4f","6e","65","20"],["4e","69","6e","65"],["20","54","77","6f"]]
+def main_fun(pt,k):
+    ar = addround(pt,k)
+    #print(ar)
+    sb = subByte(ar)
+    #print(sb)
+    sr = shiftrow(sb)
+    #print(sr)
+    mx = mix_col(rowtocol(sr))
+    #print(mx)
+    ar = addround(mx,key(k,rcon[0]))
+    #print(ar)
+    k = key(k,rcon[0])
 
-ar = addround(pt,k)
+    #print(addround(mx,ke))
+    #r = 1
+    for i in range(1,9):
 
-sb = subByte(ar)
-sr = coltorow(shiftrow(sb))
-mx = mix_col(sr)
+        #print("\n")
+        ke = key(k,rcon[i])
+        k = ke
+        #ar = addround(mx, k)
+        #print(ar)
+        sb = subByte(ar)
+        #print(sb)
+        sr = shiftrow(sb)
+        #print(sr)
 
-
-#print(addround(mx,ke))
-#r = 1
-for i in range(0,9):
-
-    ke = key(k,rcon[i])
-    k = ke
+        mx = mix_col(rowtocol(sr))
+        #print(mx)
+        ar = addround(mx,k)
+        #print(ar)
+        #print("\n",k)
+        #ke = key(k,r)
+        #r = r + 1
 
     sb = subByte(ar)
-    sr = coltorow(shiftrow(sb))
-    mx = mix_col(sr)
-    ar = addround(mx,k)
-    #print("\n",k)
-    #ke = key(k,r)
-    #r = r + 1
-sb = subByte(ar)
-sr = coltorow(shiftrow(sb))
-#mx = mix_col(sr)
-ke = key(k,rcon[9])
-ar = addround(mx, k)
+    #print(sb)
+    sr = rowtocol(shiftrow(sb))
+    #print(sr)
+    #mx = mix_col(sr)
+    ke = key(k,rcon[9])
+    ar = addround(sr, ke)
 
-print(ar)
+    print(ar)
+
+
+#k = [["0f","15","71","c9"],["47","d9","e8","59"],["0c","b7","ad","d6"],["af","7f","67","98"]]
+k = [["54","68","61","74"],["73","20","6d","79"],["20","4b","75","6e"],["67","20","46","75"]]
+#pt = [["32","43","f6","a8"],["88","5a","30","8d"],["31","31","98","a2"],["e0","37","07","34"]]
+pt = [["54","77","6f","20"],["4f","6e","65","20"],["4e","69","6e","65"],["20","54","77","6f"]]
+
+main_fun(pt,k)
