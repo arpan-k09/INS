@@ -47,3 +47,13 @@ if k1 == k2:
     print("Key value is : - ",k2)
 else:
     print("something incorrect")
+
+#Enter prime number : - 23
+#Alpha is : -  5
+#XA is : -  17
+#XB is : -  6
+#YA is : -  15
+#YB is : -  8
+#Key value is : -  13
+    
+ 
