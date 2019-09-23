@@ -1,30 +1,34 @@
-s = "helloworld"
-
-n = int(input("Enter depth : - "))
-de = 2
-diff = n - 2
-step = 2*diff + de
-
-rem =  len(s)/step
-
-re = len(s)-rem
-
-l = re/step
-
-
-li = []
-m = 0
-for _ in range(0,int(l)):
-    stri = ""
-    for __ in range(0,step):
-        stri = stri + s[m]
-        m = m + 1
-    li = li + [stri]
-sir = ""
-for _ in range(0,int(rem)):
-    sir = sir + s[m]
-    m = m + 1
-li = li + [sir]
-
-print(li)
-
+s=input("enter the msg : - ")
+k=int(input("enter the key : - "))
+# s="helloworld"
+# k=4
+l=[[] for j in range(k)]
+flag=0
+for _ in range(0,len(s),(k-1)*2):
+    for __ in range(0,k):
+        if(_+__>=len(s)):
+            flag=1
+            break
+        l[__].append(s[__+_])
+    if(flag==1):
+        break
+    else:
+        pass
+    p=k-1
+    for ___ in range(k,2*k-2):
+        if(_+___>=len(s)):
+            flag=1
+            break
+        l[p-1].append(s[___+_])
+        p=p-1
+        
+    if(flag==1):
+        break
+    else:
+        pass
+e=""
+for _ in range(len(l)):
+    for __ in range(len(l[_])):
+        e+=str(l[_][__])
+            
+print(e)
